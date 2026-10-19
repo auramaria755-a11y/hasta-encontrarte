@@ -1,0 +1,178 @@
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 16px;
+    background: #172B3A;
+    color: white;
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+h1 {
+    font-size: clamp(22px, 5vw, 36px);
+    margin: 8px 0 16px;
+}
+
+canvas {
+    display: block;
+    width: 100%;
+    max-width: 640px;
+    height: auto;
+    margin: 0 auto;
+    image-rendering: pixelated;
+    border: 3px solid #F4B183;
+    border-radius: 6px;
+    touch-action: none;
+}
+
+#controles-movil {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+    max-width: 640px;
+    margin: 18px auto 0;
+}
+
+.grupo-movimiento {
+    display: flex;
+    gap: 12px;
+}
+
+#controles-movil button {
+    min-width: 60px;
+    min-height: 56px;
+    padding: 12px;
+    border: 0;
+    border-radius: 14px;
+    background: #354C5C;
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    touch-action: none;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+#controles-movil #saltar {
+    background: #D94F70;
+    font-size: 15px;
+}
+
+#controles-movil button:active {
+    filter: brightness(1.25);
+    transform: scale(0.96);
+}
+
+@media (max-width: 420px) {
+    body {
+        padding: 10px;
+    }
+
+    #controles-movil {
+        gap: 8px;
+    }
+
+    .grupo-movimiento {
+        gap: 8px;
+    }
+
+    #controles-movil button {
+        min-width: 52px;
+        min-height: 52px;
+    }
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 16px;
+    background: #172B3A;
+    color: white;
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+h1 {
+    font-size: clamp(22px, 5vw, 36px);
+    margin: 8px 0 16px;
+}
+
+canvas {
+    display: block;
+    width: 100%;
+    max-width: 640px;
+    height: auto;
+    margin: 0 auto;
+    image-rendering: pixelated;
+    border: 3px solid #F4B183;
+    border-radius: 6px;
+    touch-action: none;
+}
+
+#controles-movil {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+    max-width: 640px;
+    margin: 18px auto 0;
+}
+
+.grupo-movimiento {
+    display: flex;
+    gap: 12px;
+}
+
+#controles-movil button {
+    min-width: 60px;
+    min-height: 56px;
+    padding: 12px;
+    border: 0;
+    border-radius: 14px;
+    background: #354C5C;
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    touch-action: none;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+#controles-movil #saltar {
+    background: #D94F70;
+    font-size: 15px;
+}
+
+#controles-movil button:active {
+    filter: brightness(1.25);
+    transform: scale(0.96);
+}
+
+@media (max-width: 420px) {
+    body {
+        padding: 10px;
+    }
+
+    #controles-movil {
+        gap: 8px;
+    }
+
+    .grupo-movimiento {
+        gap: 8px;
+    }
+
+    #controles-movil button {
+        min-width: 52px;
+        min-height: 52px;
+    }
+}
