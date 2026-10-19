@@ -1,4 +1,3 @@
-
 const canvas = document.getElementById("juego");
 const ctx = canvas.getContext("2d");
 
@@ -105,6 +104,102 @@ ventana.innerHTML = `
 
 document.body.appendChild(ventana);
 
+const pantallaFinal = document.createElement("div");
+
+pantallaFinal.style.cssText = `
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 2000;
+    background: linear-gradient(
+        180deg,
+        #F4B183 0%,
+        #F58FA8 45%,
+        #292039 100%
+    );
+    color: #FFF0F5;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    text-align: center;
+    box-sizing: border-box;
+`;
+
+pantallaFinal.innerHTML = `
+    <div style="
+        max-width: 440px;
+        width: 100%;
+        padding: 28px 20px;
+        box-sizing: border-box;
+    ">
+        <div style="font-size: 54px; margin-bottom: 12px;">
+            ❤️ 💗 ❤️
+        </div>
+
+        <h1 style="
+            color: #FFFFFF;
+            font-size: clamp(30px, 8vw, 44px);
+            margin: 10px 0 18px;
+        ">
+            Hasta encontrarte
+        </h1>
+
+        <p style="
+            font-size: 19px;
+            line-height: 1.7;
+            margin-bottom: 24px;
+        ">
+            De todos los caminos que pude tomar,
+            mi favorito siempre será el que me lleva a ti.
+        </p>
+
+        <p style="
+            font-size: 21px;
+            color: #FFF0A8;
+            font-weight: bold;
+            line-height: 1.5;
+        ">
+            Tú eres mi lugar favorito. ❤️
+        </p>
+
+        <p style="font-size: 16px; margin: 24px 0;">
+            Fin… o el comienzo de nuestra historia.
+        </p>
+
+        <button id="volver-jugar" style="
+            background: #D92764;
+            color: white;
+            border: 2px solid #FFFFFF;
+            border-radius: 14px;
+            padding: 14px 22px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        ">
+            Volver a jugar ❤️
+        </button>
+    </div>
+`;
+
+document.body.appendChild(pantallaFinal);
+
+// Botón para cerrar cada mensaje y mostrar el final después del séptimo corazón
+document.getElementById("continuar-amor").addEventListener("click", () => {
+    ventana.style.display = "none";
+
+    if (corazonesRecogidos === corazones.length) {
+        mensajeAbierto = true;
+        pantallaFinal.style.display = "flex";
+    } else {
+        mensajeAbierto = false;
+    }
+});
+
+// Botón para volver a empezar el juego
+document.getElementById("volver-jugar").addEventListener("click", () => {
+    window.location.reload();
+});
+
 function mostrarFrase(numero) {
     mensajeAbierto = true;
 
@@ -116,238 +211,259 @@ function mostrarFrase(numero) {
 
     ventana.style.display = "flex";
 }
+// Dibujar el escenario tropical
+function dibujarFondo() {
+    const cielo = ctx.createLinearGradient(0, 0, 0, canvas.height);
+    cielo.addColorStop(0, "#87CEEB");
+    cielo.addColorStop(1, "#FFE0B5");
 
-document.getElementById("continuar-amor").addEventListener("click", () => {
-    ventana.style.display = "none";
-    mensajeAbierto = false;
-});
-
-function dibujarEscenario() {
-    // Cielo
-    ctx.fillStyle = "#F4B183";
-    ctx.fillRect(0, 0, 640, 360);
+    ctx.fillStyle = cielo;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     // Sol
-    ctx.fillStyle = "#FFE27A";
-    ctx.fillRect(500, 45, 32, 32);
-    ctx.fillRect(492, 53, 8, 16);
-    ctx.fillRect(532, 53, 8, 16);
-    ctx.fillRect(508, 37, 16, 8);
-    ctx.fillRect(508, 77, 16, 8);
+    ctx.fillStyle = "#FFD166";
+    ctx.beginPath();
+    ctx.arc(540, 55, 30, 0, Math.PI * 2);
+    ctx.fill();
 
     // Mar
-    ctx.fillStyle = "#20B8C4";
-    ctx.fillRect(0, 210, 640, 75);
+    ctx.fillStyle = "#40C9D8";
+    ctx.fillRect(0, 270, canvas.width, canvas.height - 270);
 
     // Arena
-    ctx.fillStyle = "#EBCB87";
-    ctx.fillRect(0, 285, 640, 75);
+    ctx.fillStyle = "#F6D7A7";
+    ctx.fillRect(0, 250, canvas.width, 25);
 
-    // Tronco de la palmera
-    ctx.fillStyle = "#8B5A2B";
-    ctx.fillRect(105, 160, 12, 125);
+    // Nubes
+    ctx.fillStyle = "#FFFFFF";
+    ctx.beginPath();
+    ctx.arc(100, 60, 18, 0, Math.PI * 2);
+    ctx.arc(120, 50, 24, 0, Math.PI * 2);
+    ctx.arc(145, 62, 18, 0, Math.PI * 2);
+    ctx.fill();
 
-    // Hojas
-    ctx.fillStyle = "#287A45";
-    ctx.fillRect(92, 137, 12, 30);
-    ctx.fillRect(78, 143, 18, 8);
-    ctx.fillRect(65, 151, 18, 8);
-    ctx.fillRect(70, 163, 35, 8);
-    ctx.fillRect(116, 137, 12, 30);
-    ctx.fillRect(124, 143, 18, 8);
-    ctx.fillRect(139, 151, 18, 8);
-    ctx.fillRect(117, 163, 35, 8);
+    ctx.beginPath();
+    ctx.arc(350, 85, 15, 0, Math.PI * 2);
+    ctx.arc(370, 75, 22, 0, Math.PI * 2);
+    ctx.arc(395, 86, 16, 0, Math.PI * 2);
+    ctx.fill();
 
-    // Plataformas
-    for (const plataforma of plataformas) {
-        ctx.fillStyle = "#795548";
-        ctx.fillRect(
-            plataforma.x, plataforma.y,
-            plataforma.ancho, plataforma.alto
-        );
+    // Palmeras
+    dibujarPalmera(35, 240);
+    dibujarPalmera(585, 240);
 
-        ctx.fillStyle = "#4CAF50";
-        ctx.fillRect(
-            plataforma.x, plataforma.y,
-            plataforma.ancho, 7
-        );
-    }
-
-    // Corazones coleccionables
-    for (const corazon of corazones) {
-        if (corazon.recogido) continue;
-
-        const x = corazon.x;
-        const y = corazon.y;
-
-        ctx.fillStyle = "#D92764";
-
-        // Silueta pixelada del corazón
-        ctx.fillRect(x - 10, y - 8, 8, 8);
-        ctx.fillRect(x + 2, y - 8, 8, 8);
-        ctx.fillRect(x - 14, y - 4, 28, 8);
-        ctx.fillRect(x - 10, y + 4, 20, 8);
-        ctx.fillRect(x - 6, y + 12, 12, 4);
-
-        // Brillo
-        ctx.fillStyle = "#FFB6CE";
-        ctx.fillRect(x - 7, y - 6, 4, 4);
-    }
+    // Suelo
+    ctx.fillStyle = "#E8BD82";
+    ctx.fillRect(0, 250, canvas.width, 25);
 }
 
+function dibujarPalmera(x, y) {
+    ctx.fillStyle = "#8B5A2B";
+    ctx.fillRect(x - 5, y - 65, 10, 65);
+
+    ctx.strokeStyle = "#287A45";
+    ctx.lineWidth = 7;
+    ctx.lineCap = "round";
+
+    ctx.beginPath();
+    ctx.moveTo(x, y - 65);
+    ctx.lineTo(x - 28, y - 83);
+    ctx.moveTo(x, y - 65);
+    ctx.lineTo(x + 30, y - 87);
+    ctx.moveTo(x, y - 65);
+    ctx.lineTo(x - 35, y - 65);
+    ctx.moveTo(x, y - 65);
+    ctx.lineTo(x + 34, y - 60);
+    ctx.moveTo(x, y - 65);
+    ctx.lineTo(x, y - 95);
+    ctx.stroke();
+}
+
+// Dibujar a la protagonista
 function dibujarPersonaje() {
-    const x = Math.round(personaje.x);
-    const y = Math.round(personaje.y);
+    const x = personaje.x;
+    const y = personaje.y;
 
-    // Cabello rizado
-    ctx.fillStyle = "#3B241C";
-    ctx.fillRect(x, y + 4, 8, 8);
-    ctx.fillRect(x + 4, y, 8, 8);
-    ctx.fillRect(x + 12, y, 8, 8);
-    ctx.fillRect(x + 20, y + 4, 8, 8);
-    ctx.fillRect(x, y + 8, 8, 16);
-    ctx.fillRect(x + 24, y + 8, 8, 12);
-    ctx.fillRect(x + 4, y + 8, 24, 8);
+    // Pelo oscuro
+    ctx.fillStyle = "#30201C";
+    ctx.fillRect(x + 5, y, 22, 17);
+    ctx.fillRect(x + 2, y + 7, 7, 17);
+    ctx.fillRect(x + 23, y + 7, 7, 19);
 
-    // Cara canela
-    ctx.fillStyle = "#B8754F";
-    ctx.fillRect(x + 4, y + 8, 24, 20);
+    // Cara
+    ctx.fillStyle = "#C68655";
+    ctx.fillRect(x + 7, y + 8, 18, 19);
 
-    // Ojos y sonrisa
-    ctx.fillStyle = "#2B1B16";
-    ctx.fillRect(x + 9, y + 15, 3, 4);
-    ctx.fillRect(x + 20, y + 15, 3, 4);
-    ctx.fillRect(x + 13, y + 23, 7, 2);
+    // Ojos
+    ctx.fillStyle = "#30201C";
+    ctx.fillRect(x + 11, y + 15, 3, 3);
+    ctx.fillRect(x + 19, y + 15, 3, 3);
 
-    // Brazos
-    ctx.fillStyle = "#B8754F";
-    ctx.fillRect(x, y + 30, 6, 18);
-    ctx.fillRect(x + 26, y + 30, 6, 18);
+    // Sonrisa
+    ctx.fillStyle = "#8D3B4A";
+    ctx.fillRect(x + 14, y + 22, 6, 2);
 
-    // Camiseta
-    ctx.fillStyle = "#D94F70";
-    ctx.fillRect(x + 6, y + 28, 20, 24);
+    // Camiseta rosa
+    ctx.fillStyle = "#FF75A0";
+    ctx.fillRect(x + 5, y + 28, 22, 20);
+    ctx.fillRect(x, y + 30, 7, 14);
+    ctx.fillRect(x + 25, y + 30, 7, 14);
 
-    // Piernas
-    ctx.fillStyle = "#303A70";
-    ctx.fillRect(x + 7, y + 52, 7, 10);
-    ctx.fillRect(x + 19, y + 52, 7, 10);
+    // Pantalón azul
+    ctx.fillStyle = "#3978C5";
+    ctx.fillRect(x + 7, y + 48, 8, 12);
+    ctx.fillRect(x + 17, y + 48, 8, 12);
 
     // Zapatos
-    ctx.fillStyle = "#5B3529";
-    ctx.fillRect(x + 3, y + 62, 11, 5);
-    ctx.fillRect(x + 19, y + 62, 11, 5);
+    ctx.fillStyle = "#FFFFFF";
+    ctx.fillRect(x + 4, y + 60, 12, 5);
+    ctx.fillRect(x + 17, y + 60, 12, 5);
 }
 
-function actualizar() {
-    const anteriorY = personaje.y;
+// Dibujar los corazones coleccionables
+function dibujarCorazones() {
+    corazones.forEach((corazon) => {
+        if (corazon.recogido) return;
 
-    if (teclas.izquierda) personaje.x -= personaje.velocidad;
-    if (teclas.derecha) personaje.x += personaje.velocidad;
+        ctx.font = "25px Arial";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillText("❤️", corazon.x, corazon.y);
+    });
+}
 
+// Dibujar las plataformas
+function dibujarPlataformas() {
+    plataformas.forEach((plataforma) => {
+        ctx.fillStyle = "#B77B45";
+        ctx.fillRect(
+            plataforma.x,
+            plataforma.y,
+            plataforma.ancho,
+            plataforma.alto
+        );
+
+        ctx.fillStyle = "#53A653";
+        ctx.fillRect(
+            plataforma.x,
+            plataforma.y,
+            plataforma.ancho,
+            6
+        );
+    });
+}
+
+// Comprobar colisiones entre la protagonista y los corazones
+function comprobarCorazones() {
+    corazones.forEach((corazon, indice) => {
+        if (corazon.recogido) return;
+
+        const distanciaX = Math.abs(
+            (personaje.x + personaje.ancho / 2) - corazon.x
+        );
+
+        const distanciaY = Math.abs(
+            (personaje.y + personaje.alto / 2) - corazon.y
+        );
+
+        if (distanciaX < 28 && distanciaY < 35) {
+            corazon.recogido = true;
+            corazonesRecogidos++;
+            mostrarFrase(indice);
+        }
+    });
+}
+
+// Movimiento y salto
+function actualizarPersonaje() {
+    if (mensajeAbierto) return;
+
+    if (teclas.izquierda) {
+        personaje.x -= personaje.velocidad;
+    }
+
+    if (teclas.derecha) {
+        personaje.x += personaje.velocidad;
+    }
+
+    // Evitar que salga de la pantalla
     personaje.x = Math.max(
         0,
         Math.min(canvas.width - personaje.ancho, personaje.x)
     );
 
-    // Gravedad y salto
-    personaje.velocidadY += gravedad;
+    // Gravedad
     personaje.y += personaje.velocidadY;
+    personaje.velocidadY += gravedad;
 
-    personaje.saltando = true;
+    // Suelo
+    const suelo = 250 - personaje.alto;
 
-    const superficies = [
-        { x: 0, y: 285, ancho: canvas.width },
-        ...plataformas
-    ];
+    if (personaje.y >= suelo) {
+        personaje.y = suelo;
+        personaje.velocidadY = 0;
+        personaje.saltando = false;
+    }
 
-    for (const superficie of superficies) {
-        const pieAnterior = anteriorY + personaje.alto;
-        const pieActual = personaje.y + personaje.alto;
+    // Colisión con plataformas al caer
+    plataformas.forEach((plataforma) => {
+        const piesAntes = personaje.y + personaje.alto - personaje.velocidadY;
 
-        const dentroHorizontal =
-            personaje.x + personaje.ancho > superficie.x &&
-            personaje.x < superficie.x + superficie.ancho;
+        const tocaHorizontal =
+            personaje.x + personaje.ancho > plataforma.x &&
+            personaje.x < plataforma.x + plataforma.ancho;
 
-        if (
-            dentroHorizontal &&
+        const caeSobrePlataforma =
             personaje.velocidadY >= 0 &&
-            pieAnterior <= superficie.y &&
-            pieActual >= superficie.y
-        ) {
-            personaje.y = superficie.y - personaje.alto;
+            piesAntes <= plataforma.y &&
+            personaje.y + personaje.alto >= plataforma.y;
+
+        if (tocaHorizontal && caeSobrePlataforma) {
+            personaje.y = plataforma.y - personaje.alto;
             personaje.velocidadY = 0;
             personaje.saltando = false;
         }
-    }
-
-    // Recoger corazones
-    for (let i = 0; i < corazones.length; i++) {
-        const corazon = corazones[i];
-
-        if (corazon.recogido) continue;
-
-        const tocaCorazon =
-            personaje.x < corazon.x + 12 &&
-            personaje.x + personaje.ancho > corazon.x - 12 &&
-            personaje.y < corazon.y + 12 &&
-            personaje.y + personaje.alto > corazon.y - 12;
-
-        if (tocaCorazon) {
-            corazon.recogido = true;
-            corazonesRecogidos++;
-            mostrarFrase(i);
-            break;
-        }
-    }
-}
-
-function dibujarCorazones() {
-    corazones.forEach((corazon) => {
-        if (corazon.recogido) return;
-
-        const x = Math.round(corazon.x);
-        const y = Math.round(corazon.y);
-
-        // Dibujar el corazón en pixel art
-        ctx.fillStyle = "#FF4F87";
-
-        ctx.fillRect(x - 10, y - 8, 8, 8);
-        ctx.fillRect(x + 2, y - 8, 8, 8);
-        ctx.fillRect(x - 14, y, 28, 8);
-        ctx.fillRect(x - 10, y + 8, 20, 8);
-        ctx.fillRect(x - 6, y + 16, 12, 4);
-
-        // Brillo del corazón
-        ctx.fillStyle = "#FFB6CE";
-        ctx.fillRect(x - 7, y - 5, 4, 4);
     });
-}
-console.log("Juego cargado. Corazones:", corazones.length);
-function bucleJuego() {
-    if (!mensajeAbierto) actualizar();
 
-    dibujarEscenario();
-    dibujarPersonaje();
+    comprobarCorazones();
+}
+
+// Bucle principal del juego
+function dibujarJuego() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    dibujarFondo();
+    dibujarPlataformas();
     dibujarCorazones();
+    dibujarPersonaje();
 
-    requestAnimationFrame(bucleJuego);
+    actualizarPersonaje();
+
+    requestAnimationFrame(dibujarJuego);
 }
 
-// Teclado
+// Controles del teclado
 document.addEventListener("keydown", (evento) => {
-    if (mensajeAbierto) return;
-
-    if (["ArrowLeft", "ArrowRight", "ArrowUp", " "].includes(evento.key)) {
+    if (
+        ["ArrowLeft", "ArrowRight", "ArrowUp", " "].includes(evento.key)
+    ) {
         evento.preventDefault();
     }
 
-    if (evento.key === "ArrowLeft") teclas.izquierda = true;
-    if (evento.key === "ArrowRight") teclas.derecha = true;
+    if (evento.key === "ArrowLeft" || evento.key.toLowerCase() === "a") {
+        teclas.izquierda = true;
+    }
+
+    if (evento.key === "ArrowRight" || evento.key.toLowerCase() === "d") {
+        teclas.derecha = true;
+    }
 
     if (
-        (evento.key === "ArrowUp" || evento.key === " ") &&
-        !personaje.saltando
+        (evento.key === "ArrowUp" ||
+            evento.key === " " ||
+            evento.key.toLowerCase() === "w") &&
+        !personaje.saltando &&
+        !mensajeAbierto
     ) {
         personaje.velocidadY = fuerzaSalto;
         personaje.saltando = true;
@@ -355,46 +471,63 @@ document.addEventListener("keydown", (evento) => {
 });
 
 document.addEventListener("keyup", (evento) => {
-    if (evento.key === "ArrowLeft") teclas.izquierda = false;
-    if (evento.key === "ArrowRight") teclas.derecha = false;
+    if (evento.key === "ArrowLeft" || evento.key.toLowerCase() === "a") {
+        teclas.izquierda = false;
+    }
+
+    if (evento.key === "ArrowRight" || evento.key.toLowerCase() === "d") {
+        teclas.derecha = false;
+    }
 });
 
-// Botones táctiles
-function conectarBoton(id, alPulsar, alSoltar) {
+// Controles táctiles para jugar desde el móvil
+function crearControlMovil(id, accion) {
     const boton = document.getElementById(id);
+
     if (!boton) return;
 
-    boton.addEventListener("pointerdown", (evento) => {
+    boton.addEventListener("touchstart", (evento) => {
         evento.preventDefault();
-        if (!mensajeAbierto) alPulsar();
-    });
+        accion(true);
+    }, { passive: false });
 
-    boton.addEventListener("pointerup", alSoltar);
-    boton.addEventListener("pointercancel", alSoltar);
-    boton.addEventListener("pointerleave", alSoltar);
+    boton.addEventListener("touchend", (evento) => {
+        evento.preventDefault();
+        accion(false);
+    }, { passive: false });
+
+    boton.addEventListener("mousedown", () => accion(true));
+    boton.addEventListener("mouseup", () => accion(false));
+    boton.addEventListener("mouseleave", () => accion(false));
 }
 
-conectarBoton(
-    "izquierda",
-    () => teclas.izquierda = true,
-    () => teclas.izquierda = false
-);
+crearControlMovil("izquierda", (activo) => {
+    teclas.izquierda = activo;
+});
 
-conectarBoton(
-    "derecha",
-    () => teclas.derecha = true,
-    () => teclas.derecha = false
-);
+crearControlMovil("derecha", (activo) => {
+    teclas.derecha = activo;
+});
 
-conectarBoton(
-    "saltar",
-    () => {
-        if (!personaje.saltando) {
+const botonSaltar = document.getElementById("saltar");
+
+if (botonSaltar) {
+    botonSaltar.addEventListener("touchstart", (evento) => {
+        evento.preventDefault();
+
+        if (!personaje.saltando && !mensajeAbierto) {
             personaje.velocidadY = fuerzaSalto;
             personaje.saltando = true;
         }
-    },
-    () => {}
-);
+    }, { passive: false });
 
-bucleJuego();
+    botonSaltar.addEventListener("click", () => {
+        if (!personaje.saltando && !mensajeAbierto) {
+            personaje.velocidadY = fuerzaSalto;
+            personaje.saltando = true;
+        }
+    });
+}
+
+// Iniciar el juego
+dibujarJuego();
